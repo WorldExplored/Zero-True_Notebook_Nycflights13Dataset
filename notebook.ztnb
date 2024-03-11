@@ -1,3 +1,15 @@
+notebookId = "559d6bf3-6d86-4c3d-ac79-b2d5830d7197"
+notebookName = "Zero True"
+
+[cells.b8eb698b-de30-499d-9a16-edeca7eea4b9]
+cellName = ""
+cellType = "code"
+hideCell = "False"
+hideCode = "False"
+expandCode = "False"
+showTable = "False"
+nonReactive = "False"
+code = """
 import zero_true as zt
 from zero_true import PlotlyComponent, RangeSlider, Button, Text, Layout, Row, Column
 import pandas as pd
@@ -50,13 +62,22 @@ fig.update_layout(
     xaxis_title='Year',
     yaxis_title='Stock Price (USD)'
 )
-zt.PlotlyComponent.from_figure(id='graph', figure=fig)
+zt.PlotlyComponent.from_figure(id='graph', figure=fig)"""
 
-
-
+[cells.d11bda9b-7ac9-4aca-b7a6-244b7ac838fc]
+cellName = ""
+cellType = "code"
+hideCell = "False"
+hideCode = "False"
+expandCode = "False"
+showTable = "False"
+nonReactive = "False"
+code = """
 from prophet import Prophet
+import pandas as pd
 import plotly
 import plotly.graph_objects as go
+import zero_true as zt
 import json
 
 df_prophet = money_df[['Date', 'Close']].rename(columns={'Date': 'ds', 'Close': 'y'})
@@ -91,4 +112,60 @@ plotly_component = zt.PlotlyComponent(
 )
 
 # Assuming you have a method to add the component to your UI, such as adding it to a layout
-layout = zt.Layout(components=[plotly_component])
+layout = zt.Layout(components=[plotly_component])"""
+
+[cells.e51c475e-f14b-47d0-9c1a-b91263b88a2f]
+cellName = ""
+cellType = "code"
+hideCell = "False"
+hideCode = "False"
+expandCode = "False"
+showTable = "False"
+nonReactive = "False"
+code = """
+# Initially, display the plot for the full dataset
+filtered_df = filter_df_by_year(df, year_slider.value[0], year_slider.value[1])
+money_df = filter_df_by_money(filtered_df, price_slider.value[0], price_slider.value[1])
+
+fig = px.scatter(filtered_df, x='Date', y='Close')
+
+fig.update_layout(
+    title='Apple Stock Price from 1980 to 2021',
+    xaxis_title='Year',
+    yaxis_title='Stock Price (USD)'
+)
+zt.PlotlyComponent.from_figure(id='graph', figure=fig)"""
+
+[cells.88c476a2-6789-4f6f-8e68-d1670a6a3ee7]
+cellName = ""
+cellType = "code"
+hideCell = "False"
+hideCode = "False"
+expandCode = "False"
+showTable = "False"
+nonReactive = "False"
+code = """
+
+    
+def create_stock_price_plot(df):
+    # Create the Plotly figure
+    fig = go.Figure(go.Scatter(x=df['Date'], y=df['Close'], mode='lines', name='Close'))
+    fig.update_layout(title="Apple Stock Price from 1980 to 2021", xaxis_title="Year", yaxis_title="Stock Price (USD)", template="plotly_dark")
+    
+    # Return the PlotlyComponent
+    plotly_component = PlotlyComponent.from_figure(figure=fig, id="apple_stock_price_plot")
+    return plotly_component
+
+# Initially, display the plot for the full dataset
+filtered_df = filter_df_by_year(df, year_slider.value[0], year_slider.value[1])
+money_df = filter_df_by_money(filtered_df, price_slider.value[0], price_slider.value[1])
+
+fig = px.scatter(filtered_df, x='Date', y='Close')
+
+fig.update_layout(
+    title='Apple Stock Price from 1980 to 2021',
+    xaxis_title='Year',
+    yaxis_title='Stock Price (USD)'
+)
+zt.PlotlyComponent.from_figure(id='graph', figure=fig)"""
+
